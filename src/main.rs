@@ -9,12 +9,14 @@ async fn main() -> Result<(), Box<dyn Error>>{
 
     if args.len() < 2 {
         println!("You must pass atleast one argument to the progam");
+        //Stop the process when this happens
     }
 
-    let command = &args[1].trim();
+    let arguments = args[1..].join(" ");
+    println!("{:?}", arguments);
 
     let mut req_body = HashMap::new();
-    req_body.insert("command", command);
+    req_body.insert("command", arguments);
 
     let client = reqwest::Client::new();
     let res = client.post("http://127.0.0.1:8888").json(&req_body).send().await?;
