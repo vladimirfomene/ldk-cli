@@ -13,7 +13,6 @@ async fn main() -> Result<(), Box<dyn Error>>{
     }
 
     let arguments = args[1..].join(" ");
-    println!("{:?}", arguments);
 
     let mut req_body = HashMap::new();
     req_body.insert("command", arguments);
@@ -21,7 +20,10 @@ async fn main() -> Result<(), Box<dyn Error>>{
     let client = reqwest::Client::new();
     let res = client.post("http://127.0.0.1:8888").json(&req_body).send().await?;
 
-    println!("{:#?}", res.text().await);
+    match res.text().await {
+        Ok(res) => println!("{}", res),
+        Err(e) => println!("{:?}", e)
+    }
 
     Ok(())
 }
